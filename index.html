@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Glosario Tecnológico 2025 · Memo Lab PRO</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap');
+
+  :root {
+    --bg:       #0A0E1A;
+    --surface:  #111827;
+    --surface2: #1C2333;
+    --border:   #1F2D44;
+    --accent:   #6366F1;
+    --cyan:     #22D3EE;
+    --gold:     #F59E0B;
+    --red:      #EF4444;
+    --green:    #10B981;
+    --text:     #E2E8F0;
+    --muted:    #64748B;
+    --card-bg:  #141B2D;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Syne', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── HEADER ── */
+  header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(10,14,26,0.92);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 24px;
+    display: flex; align-items: center; gap: 16px; flex-wrap: wrap;
+  }
+  .logo {
+    font-weight: 800; font-size: 1.1rem; letter-spacing: -0.02em;
+    color: var(--text); white-space: nowrap;
+  }
+  .logo span { color: var(--accent); }
+  #search {
+    flex: 1; min-width: 200px; max-width: 480px;
+    background: var(--surface2); border: 1px solid var(--border);
+    border-radius: 8px; color: var(--text);
+    font-family: 'Space Mono', monospace; font-size: 0.85rem;
+    padding: 9px 14px;
+    outline: none; transition: border-color 0.2s;
+  }
+  #search:focus { border-color: var(--accent); }
+  #search::placeholder { color: var(--muted); }
+  .count-badge {
+    font-family: 'Space Mono', monospace; font-size: 0.75rem;
+    color: var(--muted); white-space: nowrap; margin-left: auto;
+  }
+  .count-badge b { color: var(--cyan); }
+
+  /* ── HERO ── */
+  .hero {
+    text-align: center;
+    padding: 72px 24px 48px;
+    position: relative; overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute; top: -40px; left: 50%; transform: translateX(-50%);
+    width: 600px; height: 300px;
+    background: radial-gradient(ellipse, rgba(99,102,241,0.15) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-kicker {
+    font-family: 'Space Mono', monospace; font-size: 0.72rem;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--cyan); margin-bottom: 14px;
+  }
+  .hero h1 {
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    font-weight: 800; letter-spacing: -0.03em; line-height: 1.1;
+    margin-bottom: 16px;
+  }
+  .hero h1 em { font-style: normal; color: var(--accent); }
+  .hero p {
+    color: var(--muted); font-size: 1rem; max-width: 520px; margin: 0 auto 28px;
+    line-height: 1.6;
+  }
+  .stats-row {
+    display: flex; justify-content: center; gap: 32px; flex-wrap: wrap;
+    margin-bottom: 0;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: 'Space Mono', monospace; font-size: 2rem; font-weight: 700;
+    line-height: 1;
+  }
+  .stat-num.c1 { color: var(--cyan); }
+  .stat-num.c2 { color: var(--gold); }
+  .stat-num.c3 { color: var(--green); }
+  .stat-label { font-size: 0.78rem; color: var(--muted); margin-top: 4px; }
+
+  /* ── LEGEND ── */
+  .legend {
+    display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;
+    padding: 16px 24px; border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    background: var(--surface);
+    font-size: 0.8rem; color: var(--muted);
+  }
+  .legend span { display: flex; align-items: center; gap: 6px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; display: inline-block; }
+
+  /* ── FILTERS ── */
+  .filters {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    padding: 20px 24px; border-bottom: 1px solid var(--border);
+    background: var(--bg);
+    position: sticky; top: 61px; z-index: 90;
+  }
+  .filter-btn {
+    background: var(--surface2); border: 1px solid var(--border);
+    color: var(--muted); border-radius: 6px;
+    font-family: 'Space Mono', monospace; font-size: 0.72rem;
+    padding: 6px 12px; cursor: pointer;
+    transition: all 0.15s; white-space: nowrap;
+  }
+  .filter-btn:hover { border-color: var(--accent); color: var(--text); }
+  .filter-btn.active {
+    background: var(--accent); border-color: var(--accent);
+    color: #fff; font-weight: 700;
+  }
+
+  /* ── MAIN LAYOUT ── */
+  main { padding: 32px 24px 80px; max-width: 1200px; margin: 0 auto; }
+
+  /* ── SECTION ── */
+  .section { margin-bottom: 48px; }
+  .section-header {
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 20px; padding-bottom: 12px;
+    border-bottom: 2px solid var(--border);
+  }
+  .section-icon {
+    width: 38px; height: 38px; border-radius: 8px;
+    background: var(--surface2); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'Space Mono', monospace; font-size: 0.7rem; color: var(--accent);
+  }
+  .section-title { font-size: 1.2rem; font-weight: 800; }
+  .section-title span { color: var(--accent); }
+  .section-count {
+    margin-left: auto; font-family: 'Space Mono', monospace;
+    font-size: 0.72rem; color: var(--muted);
+    background: var(--surface2); padding: 3px 8px; border-radius: 4px;
+  }
+
+  /* ── GRID ── */
+  .terms-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 12px;
+  }
+
+  /* ── CARD ── */
+  .card {
+    background: var(--card-bg); border: 1px solid var(--border);
+    border-radius: 10px; padding: 16px;
+    transition: border-color 0.2s, transform 0.15s;
+    cursor: default; position: relative; overflow: hidden;
+  }
+  .card::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+    width: 3px; background: var(--accent);
+    border-radius: 10px 0 0 10px; opacity: 0;
+    transition: opacity 0.2s;
+  }
+  .card:hover { border-color: var(--accent); transform: translateY(-2px); }
+  .card:hover::before { opacity: 1; }
+  .card-top { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .tag {
+    font-family: 'Space Mono', monospace; font-size: 0.65rem; font-weight: 700;
+    background: var(--accent); color: #fff;
+    padding: 2px 8px; border-radius: 4px; letter-spacing: 0.05em;
+  }
+  .stars { font-size: 0.75rem; margin-left: auto; }
+  .stars.e3 { color: var(--red); }
+  .stars.e2 { color: var(--gold); }
+  .stars.e1 { color: var(--muted); }
+  .card-name {
+    font-size: 1rem; font-weight: 700; margin-bottom: 6px;
+    color: var(--text); line-height: 1.3;
+  }
+  .card-def {
+    font-size: 0.83rem; color: #94A3B8; line-height: 1.55;
+    font-family: 'Syne', sans-serif; font-weight: 400;
+  }
+
+  /* ── NO RESULTS ── */
+  .no-results {
+    text-align: center; padding: 80px 24px;
+    color: var(--muted); display: none;
+  }
+  .no-results h3 { font-size: 1.3rem; margin-bottom: 8px; }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center; padding: 32px 24px;
+    border-top: 1px solid var(--border);
+    color: var(--muted); font-size: 0.82rem;
+  }
+  footer a { color: var(--accent); text-decoration: none; }
+  footer a:hover { text-decoration: underline; }
+
+  /* ── SCROLL TOP ── */
+  #top-btn {
+    position: fixed; bottom: 28px; right: 28px;
+    width: 44px; height: 44px; border-radius: 10px;
+    background: var(--accent); color: #fff; border: none;
+    font-size: 1.1rem; cursor: pointer;
+    box-shadow: 0 4px 20px rgba(99,102,241,0.4);
+    opacity: 0; transform: translateY(10px);
+    transition: opacity 0.3s, transform 0.3s;
+    pointer-events: none;
+  }
+  #top-btn.visible { opacity: 1; transform: translateY(0); pointer-events: all; }
+  #top-btn:hover { background: #4F46E5; }
+
+  /* highlight match */
+  mark { background: rgba(99,102,241,0.3); color: var(--text); border-radius: 2px; padding: 0 1px; }
+
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 2rem; }
+    .stats-row { gap: 20px; }
+    .filters { top: 57px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">Memo Lab <span>PRO</span> · Glosario Tecnológico</div>
+  <input type="text" id="search" placeholder="🔍  Busca un término, lenguaje o framework..." autocomplete="off" spellcheck="false">
+  <div class="count-badge">Mostrando <b id="visible-count">0</b> términos</div>
+</header>
+
+<section class="hero">
+  <p class="hero-kicker">Referencia Personal de Tecnología · 2025</p>
+  <h1>El glosario que<br><em>siempre necesitaste</em></h1>
+  <p>Escuchaste un término nuevo, buscas aquí. Lenguajes, frameworks, librerías, herramientas, cloud, IA y Web3 — todo en un lugar.</p>
+  <div class="stats-row">
+    <div class="stat"><div class="stat-num c1">200+</div><div class="stat-label">Términos</div></div>
+    <div class="stat"><div class="stat-num c2">10</div><div class="stat-label">Categorías</div></div>
+    <div class="stat"><div class="stat-num c3">2025</div><div class="stat-label">Actualizado</div></div>
+  </div>
+</section>
+
+<div class="legend">
+  <span><span class="dot" style="background:var(--red)"></span> ★★★ Esencial — debes conocerlo</span>
+  <span><span class="dot" style="background:var(--gold)"></span> ★★ Importante — muy usado</span>
+  <span><span class="dot" style="background:var(--muted)"></span> ★ Especializado — según tu área</span>
+</div>
+
+<div class="filters" id="filters">
+  <button class="filter-btn active" data-filter="all">Todos</button>
+</div>
+
+<main id="main-content"></main>
+<div class="no-results" id="no-results">
+  <h3>Sin resultados</h3>
+  <p>Prueba con otro término o cambia el filtro de categoría.</p>
+</div>
+
+<footer>
+  <p>Memo Lab PRO · <a href="https://github.com/MemoLabPRO" target="_blank">github.com/MemoLabPRO</a></p>
+  <p style="margin-top:6px;font-size:0.75rem;">Documento vivo — se actualiza conforme crece el aprendizaje.</p>
+</footer>
+
+<button id="top-btn" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+const DATA = [
+  {
+    section: "Lenguajes de Programación", icon: "< />",
+    terms: [
+      { name:"JavaScript", tag:"JS", stars:"★★★", def:"El lenguaje del navegador. Corre en el frontend (lo que ves) y backend (Node.js). Es el más usado del mundo en 2025. Esencial para web." },
+      { name:"TypeScript", tag:"TS", stars:"★★★", def:"JavaScript con tipos estáticos. Desarrollado por Microsoft. Previene errores antes de ejecutar el código. Estándar en proyectos profesionales grandes." },
+      { name:"Python", tag:"PY", stars:"★★★", def:"Lenguaje de sintaxis simple y legible. Dominante en Inteligencia Artificial, Machine Learning, Data Science y scripting. También usado en backend web." },
+      { name:"Rust", tag:"RS", stars:"★★★", def:"Lenguaje de sistemas de alta performance y seguridad de memoria sin garbage collector. Usado en WebAssembly, sistemas operativos, blockchain y CLI tools." },
+      { name:"Go / Golang", tag:"GO", stars:"★★★", def:"Creado por Google. Simple, rápido y concurrente. Ideal para microservicios, APIs y herramientas de DevOps. Compila a binarios pequeños." },
+      { name:"Java", tag:"JV", stars:"★★★", def:"Lenguaje orientado a objetos de alto uso empresarial. Corre en JVM (Java Virtual Machine). Base de Android y muchos sistemas bancarios." },
+      { name:"Kotlin", tag:"KT", stars:"★★★", def:"Lenguaje moderno que reemplaza Java en Android. También usado en backend con frameworks como Ktor." },
+      { name:"Swift", tag:"SW", stars:"★★★", def:"Lenguaje de Apple para iOS, macOS, watchOS. Moderno, rápido y seguro. Obligatorio para apps nativas de Apple." },
+      { name:"C#", tag:"CS", stars:"★★★", def:"Lenguaje de Microsoft. Usado en desarrollo de videojuegos (Unity), apps Windows y backend .NET. Muy popular en empresas." },
+      { name:"C++", tag:"CPP", stars:"★★★", def:"Extensión de C con POO. Usado en videojuegos (Unreal Engine), sistemas operativos, drivers y software de alto rendimiento." },
+      { name:"PHP", tag:"PHP", stars:"★★", def:"Lenguaje del lado del servidor que impulsa el 77% de la web (WordPress). Aunque criticado, sigue siendo muy relevante." },
+      { name:"Ruby", tag:"RB", stars:"★★", def:"Lenguaje elegante orientado a la productividad del desarrollador. Famoso por Ruby on Rails, framework web pionero." },
+      { name:"Dart", tag:"DT", stars:"★★★", def:"Lenguaje de Google, usado principalmente con Flutter para crear apps multiplataforma (móvil, web, desktop)." },
+      { name:"R", tag:"R", stars:"★★", def:"Lenguaje estadístico para análisis de datos, visualización y machine learning. Muy usado en ciencia e investigación." },
+      { name:"Scala", tag:"SC", stars:"★★", def:"Combina POO y programación funcional. Corre en JVM. Usado en Big Data con Apache Spark." },
+      { name:"Lua", tag:"LU", stars:"★★", def:"Lenguaje ligero embebido en aplicaciones. Muy usado en videojuegos (Roblox, Love2D) y sistemas embebidos." },
+      { name:"Solidity", tag:"SOL", stars:"★★★", def:"Lenguaje para escribir Smart Contracts en Ethereum y blockchains compatibles (EVM). Clave en Web3 y DeFi." },
+      { name:"SQL", tag:"SQL", stars:"★★★", def:"Lenguaje de consulta de bases de datos relacionales. Esencial para todo desarrollador sin excepción." },
+      { name:"Bash / Shell", tag:"SH", stars:"★★★", def:"Lenguaje de scripting para automatizar tareas en sistemas Unix/Linux. Fundamental en DevOps y administración de servidores." },
+      { name:"Zig", tag:"ZIG", stars:"★★", def:"Lenguaje moderno de sistemas, alternativa a C y competidor de Rust. Enfocado en simplicidad y control de memoria." },
+      { name:"Elixir", tag:"EX", stars:"★★", def:"Lenguaje funcional sobre la VM de Erlang. Excelente para sistemas distribuidos y aplicaciones en tiempo real con Phoenix." },
+    ]
+  },
+  {
+    section: "Frontend & UI", icon: "[ ]",
+    terms: [
+      { name:"HTML", tag:"HTML", stars:"★★★", def:"HyperText Markup Language. La estructura de toda página web. Define qué elementos existen (texto, imágenes, botones). Sin HTML no hay web." },
+      { name:"CSS", tag:"CSS", stars:"★★★", def:"Cascading Style Sheets. Da estilo y diseño al HTML (colores, fuentes, layouts). Moderno CSS incluye Grid, Flexbox, animaciones y variables." },
+      { name:"React", tag:"RCT", stars:"★★★", def:"Librería JavaScript de Meta para crear interfaces con componentes reutilizables. El más popular del mundo en 2025 para frontend." },
+      { name:"Next.js", tag:"NXT", stars:"★★★", def:"Framework basado en React, creado por Vercel. Añade SSR, SSG, rutas automáticas y optimizaciones. El estándar actual para React en producción." },
+      { name:"Vue.js", tag:"VUE", stars:"★★★", def:"Framework progresivo JavaScript para UI. Curva de aprendizaje más suave que React. Muy popular en Asia y proyectos medianos." },
+      { name:"Angular", tag:"ANG", stars:"★★★", def:"Framework completo de Google para SPAs. Usa TypeScript por defecto. Preferido en grandes empresas por su estructura opinada." },
+      { name:"Svelte", tag:"SV", stars:"★★★", def:"Framework que compila a JavaScript puro, sin virtual DOM. Código más limpio y apps más rápidas. Ganando mucha popularidad." },
+      { name:"SvelteKit", tag:"SVK", stars:"★★★", def:"Framework full-stack sobre Svelte. Equivalente a Next.js pero para Svelte. Muy recomendado en 2025." },
+      { name:"Astro", tag:"AST", stars:"★★★", def:"Framework web moderno que genera HTML estático por defecto. Permite mezclar React, Vue, Svelte en un mismo proyecto." },
+      { name:"Nuxt.js", tag:"NUX", stars:"★★★", def:"Equivalente a Next.js pero para Vue. SSR, SSG y generación de sitios estáticos con Vue." },
+      { name:"Tailwind CSS", tag:"TWD", stars:"★★★", def:"Framework CSS de clases utilitarias. En lugar de escribir CSS, aplicas clases directamente en el HTML. Adoptado masivamente desde 2022." },
+      { name:"Bootstrap", tag:"BS", stars:"★★", def:"Framework CSS con componentes prediseñados. El más usado históricamente. Sigue siendo relevante en proyectos rápidos y corporativos." },
+      { name:"Shadcn/UI", tag:"SCN", stars:"★★★", def:"Colección de componentes UI para React basados en Radix UI y Tailwind. El estándar de facto para UI profesional en 2024-2025." },
+      { name:"Framer Motion", tag:"FM", stars:"★★★", def:"Librería de animaciones para React. Poderosa, declarativa y muy usada en productos modernos." },
+      { name:"Three.js", tag:"3JS", stars:"★★★", def:"Librería JavaScript para crear gráficos 3D en el navegador usando WebGL. Usada en experiencias web inmersivas y visualizaciones." },
+      { name:"WebAssembly", tag:"WASM", stars:"★★★", def:"Tecnología que permite ejecutar código de alto rendimiento (C++, Rust) directamente en el navegador." },
+      { name:"GraphQL", tag:"GQL", stars:"★★★", def:"Lenguaje de consulta para APIs, alternativa a REST. El cliente pide exactamente los datos que necesita. Creado por Meta." },
+      { name:"tRPC", tag:"TRP", stars:"★★★", def:"Permite crear APIs type-safe entre frontend y backend TypeScript sin esquemas adicionales. Muy popular en el ecosistema Next.js." },
+    ]
+  },
+  {
+    section: "Backend & APIs", icon: "{  }",
+    terms: [
+      { name:"Node.js", tag:"NOD", stars:"★★★", def:"Entorno de ejecución de JavaScript en el servidor. Permite usar JS fuera del navegador. Base del ecosistema npm." },
+      { name:"Express.js", tag:"EXP", stars:"★★★", def:"Framework minimalista para Node.js. El más usado históricamente para crear APIs REST. Simple y flexible." },
+      { name:"Fastify", tag:"FTF", stars:"★★★", def:"Alternativa rápida a Express para Node.js. Mejor rendimiento y soporte nativo para TypeScript. Recomendado en 2025." },
+      { name:"NestJS", tag:"NST", stars:"★★★", def:"Framework backend para Node.js inspirado en Angular. Usa TypeScript, decoradores y POO. Ideal para APIs empresariales complejas." },
+      { name:"Django", tag:"DJG", stars:"★★★", def:"Framework web full-stack de Python. Baterías incluidas: ORM, autenticación, admin panel. Muy productivo para MVPs." },
+      { name:"FastAPI", tag:"FAP", stars:"★★★", def:"Framework Python moderno para APIs. Extremadamente rápido, validación automática, documentación OpenAPI automática. El estándar actual en Python." },
+      { name:"Flask", tag:"FLK", stars:"★★★", def:"Microframework Python minimalista. Más simple que Django, ideal para APIs pequeñas y proyectos de data science." },
+      { name:"Spring Boot", tag:"SPB", stars:"★★★", def:"Framework Java líder para aplicaciones empresariales y microservicios. Muy usado en banca y corporaciones grandes." },
+      { name:"Laravel", tag:"LRV", stars:"★★★", def:"Framework PHP full-stack elegante. El más popular de PHP. Incluye ORM (Eloquent), autenticación, colas y más." },
+      { name:"Gin", tag:"GIN", stars:"★★★", def:"Framework web minimalista y ultra-rápido para Go. El más popular de su ecosistema para APIs." },
+      { name:"Actix-Web", tag:"ACT", stars:"★★★", def:"Framework web para Rust. Uno de los más rápidos del mundo según benchmarks. Ideal para APIs críticas en rendimiento." },
+      { name:"REST API", tag:"REST", stars:"★★★", def:"Architectural style para diseñar APIs usando HTTP (GET, POST, PUT, DELETE). El estándar dominante de comunicación entre sistemas." },
+      { name:"WebSockets", tag:"WS", stars:"★★★", def:"Protocolo de comunicación bidireccional en tiempo real entre cliente y servidor. Usado en chats, juegos online, dashboards en vivo." },
+      { name:"gRPC", tag:"GRPC", stars:"★★★", def:"Framework RPC de Google. Usa Protocol Buffers y HTTP/2. Muy eficiente para comunicación entre microservicios." },
+      { name:"Hono", tag:"HNO", stars:"★★★", def:"Framework web ultraligero para Edge Computing. Funciona en Cloudflare Workers, Deno, Node.js. Emergente en 2024-2025." },
+      { name:"Bun", tag:"BUN", stars:"★★★", def:"Runtime JavaScript alternativo a Node.js. Mucho más rápido, incluye bundler, test runner y package manager." },
+      { name:"Deno", tag:"DNO", stars:"★★★", def:"Runtime seguro para JavaScript/TypeScript creado por el autor original de Node.js. Soporte nativo para TypeScript." },
+    ]
+  },
+  {
+    section: "Bases de Datos", icon: "[DB]",
+    terms: [
+      { name:"PostgreSQL", tag:"PG", stars:"★★★", def:"Base de datos relacional open-source más avanzada del mundo. Soporte para JSON, full-text search, extensiones (pgvector para IA). La opción preferida en 2025." },
+      { name:"MySQL", tag:"MY", stars:"★★★", def:"Base de datos relacional clásica, muy usada en aplicaciones web tradicionales. Sigue siendo relevante especialmente con WordPress." },
+      { name:"SQLite", tag:"SQ3", stars:"★★★", def:"Base de datos relacional embebida en un archivo. Sin servidor. Ideal para apps móviles, desktop y desarrollo local." },
+      { name:"MongoDB", tag:"MDB", stars:"★★★", def:"Base de datos NoSQL de documentos JSON. Flexible y escalable. Muy popular para startups y cuando el esquema de datos cambia frecuentemente." },
+      { name:"Redis", tag:"RDS", stars:"★★★", def:"Base de datos en memoria (key-value). Extremadamente rápida. Usada para caché, sesiones, colas de mensajes y rate limiting." },
+      { name:"Supabase", tag:"SB", stars:"★★★", def:"Alternativa open-source a Firebase basada en PostgreSQL. Incluye auth, storage y API REST/GraphQL auto-generada." },
+      { name:"Firebase", tag:"FB", stars:"★★★", def:"Plataforma de Google con base de datos en tiempo real (Firestore), autenticación y hosting. Muy popular para apps móviles y MVPs." },
+      { name:"Neon", tag:"NEO", stars:"★★★", def:"PostgreSQL serverless con branching. Facturación por uso. El favorito para proyectos serverless en 2024-2025." },
+      { name:"Turso", tag:"TRS", stars:"★★★", def:"Base de datos SQLite distribuida en el edge (libSQL). Ultra baja latencia. Ideal con Cloudflare Workers." },
+      { name:"Elasticsearch", tag:"ES", stars:"★★★", def:"Motor de búsqueda y análisis distribuido. Usado para búsqueda full-text, logs y analytics en tiempo real." },
+      { name:"DynamoDB", tag:"DDB", stars:"★★★", def:"Base de datos NoSQL serverless de Amazon AWS. Key-value y documentos. Altamente escalable, perfecta para arquitecturas serverless." },
+      { name:"Pinecone", tag:"PCN", stars:"★★★", def:"Base de datos vectorial en la nube. Esencial para aplicaciones de IA, búsqueda semántica y RAG." },
+      { name:"Qdrant", tag:"QDT", stars:"★★★", def:"Base de datos vectorial open-source de alto rendimiento. Alternativa a Pinecone, muy usada en pipelines de IA locales." },
+      { name:"Chroma", tag:"CHR", stars:"★★★", def:"Base de datos vectorial open-source simple de usar. Muy popular en proyectos LLM y RAG con LangChain/LlamaIndex." },
+      { name:"Prisma", tag:"PRM", stars:"★★★", def:"ORM moderno para Node.js y TypeScript. Genera tipos automáticamente, migraciones visuales y una API de consulta intuitiva." },
+      { name:"Drizzle ORM", tag:"DRZ", stars:"★★★", def:"ORM TypeScript ligero y type-safe. Alternativa moderna a Prisma, ganando popularidad rápidamente por su proximidad a SQL." },
+    ]
+  },
+  {
+    section: "Cloud, DevOps & Infraestructura", icon: "[ ^ ]",
+    terms: [
+      { name:"Docker", tag:"DCK", stars:"★★★", def:"Plataforma de contenedores. Empaqueta una app con todas sus dependencias en un contenedor portátil que corre igual en cualquier entorno." },
+      { name:"Kubernetes", tag:"K8S", stars:"★★★", def:"Sistema de orquestación de contenedores. Automatiza despliegue, escalado y gestión de apps en contenedores. El estándar de la industria." },
+      { name:"AWS", tag:"AWS", stars:"★★★", def:"Amazon Web Services. La nube más grande del mundo. EC2 (servidores), S3 (storage), Lambda (serverless), RDS y cientos de servicios más." },
+      { name:"Google Cloud", tag:"GCP", stars:"★★★", def:"Google Cloud Platform. Fuerte en IA/ML (Vertex AI), Kubernetes, BigQuery y análisis de datos." },
+      { name:"Microsoft Azure", tag:"AZR", stars:"★★★", def:"Nube de Microsoft. Líder en empresas con productos Microsoft. Fuerte integración con .NET y Active Directory." },
+      { name:"Vercel", tag:"VCL", stars:"★★★", def:"Plataforma de despliegue para frontend y full-stack. La casa de Next.js. Despliegue automático desde Git, CDN global, funciones serverless." },
+      { name:"Netlify", tag:"NTL", stars:"★★★", def:"Plataforma de hosting para sitios estáticos y JAMstack. Similar a Vercel, con formularios, functions y split testing integrado." },
+      { name:"Cloudflare", tag:"CF", stars:"★★★", def:"CDN, seguridad y plataforma edge. Workers (serverless en el edge), R2 (storage), D1 (SQLite en la nube)." },
+      { name:"Terraform", tag:"TF", stars:"★★★", def:"Herramienta de Infrastructure as Code (IaC). Define infraestructura en archivos de configuración versionables. El estándar para DevOps." },
+      { name:"GitHub Actions", tag:"GHA", stars:"★★★", def:"CI/CD integrado en GitHub. Automatiza testing, building y deployment al hacer push al repositorio." },
+      { name:"CI/CD", tag:"CICD", stars:"★★★", def:"Continuous Integration / Continuous Deployment. Práctica de automatizar el proceso de testing y despliegue de código." },
+      { name:"Nginx", tag:"NGX", stars:"★★★", def:"Servidor web y reverse proxy de alto rendimiento. Usado para servir archivos estáticos, balanceo de carga y como gateway de APIs." },
+      { name:"Linux", tag:"LNX", stars:"★★★", def:"Sistema operativo open-source. El 96% de los servidores web corren Linux. Conocimiento esencial para todo desarrollador backend o DevOps." },
+      { name:"Serverless", tag:"SLS", stars:"★★★", def:"Paradigma donde el proveedor de nube gestiona los servidores. Solo pagas por el tiempo de ejecución. AWS Lambda, Cloudflare Workers." },
+      { name:"Kafka", tag:"KFK", stars:"★★★", def:"Plataforma de streaming de eventos de alta throughput. Usada para logs, analytics en tiempo real y comunicación entre microservicios." },
+      { name:"Microservicios", tag:"MS", stars:"★★★", def:"Arquitectura donde una app se divide en servicios pequeños e independientes, cada uno con su propia responsabilidad y base de datos." },
+    ]
+  },
+  {
+    section: "Inteligencia Artificial & Machine Learning", icon: "[AI]",
+    terms: [
+      { name:"LLM", tag:"LLM", stars:"★★★", def:"Large Language Model. Modelo de lenguaje masivo entrenado en enormes cantidades de texto. GPT-4, Claude, Gemini, LLaMA son ejemplos. La base de la IA generativa actual." },
+      { name:"RAG", tag:"RAG", stars:"★★★", def:"Retrieval-Augmented Generation. Técnica para darle a un LLM acceso a conocimiento externo sin re-entrenarlo. Clave para IA empresarial." },
+      { name:"Embeddings", tag:"EMB", stars:"★★★", def:"Representaciones numéricas (vectores) de texto que capturan su significado semántico. Base de la búsqueda semántica y RAG." },
+      { name:"Vector Database", tag:"VDB", stars:"★★★", def:"Base de datos especializada en almacenar y buscar embeddings por similitud semántica. Ejemplos: Pinecone, Qdrant, Chroma, pgvector." },
+      { name:"Fine-tuning", tag:"FT", stars:"★★★", def:"Proceso de re-entrenar un modelo pre-entrenado con datos específicos de un dominio para especializarlo en tareas concretas." },
+      { name:"Prompt Engineering", tag:"PE", stars:"★★★", def:"Arte y ciencia de diseñar instrucciones (prompts) efectivas para obtener los mejores resultados de un LLM. Habilidad crítica en 2025." },
+      { name:"LangChain", tag:"LC", stars:"★★★", def:"Framework Python para construir aplicaciones con LLMs. Encadena prompts, herramientas y fuentes de datos. Muy popular para RAG y agentes." },
+      { name:"LlamaIndex", tag:"LI", stars:"★★★", def:"Framework Python especializado en conectar LLMs con fuentes de datos. Excelente para RAG y construcción de knowledge bases." },
+      { name:"Ollama", tag:"OLL", stars:"★★★", def:"Herramienta para correr LLMs localmente en tu máquina. Soporta LLaMA, Mistral, Phi, Gemma y docenas más. Sin enviar datos a la nube." },
+      { name:"LLaMA", tag:"LMA", stars:"★★★", def:"Familia de modelos open-source de Meta. Los más usados para correr IA localmente. LLaMA 3.1 y 3.3 son los actuales más capaces." },
+      { name:"Mistral", tag:"MST", stars:"★★★", def:"Modelos LLM open-source de la empresa francesa Mistral AI. Excelentes para uso local, eficientes y muy capaces." },
+      { name:"Hugging Face", tag:"HF", stars:"★★★", def:"La plataforma de IA más grande. Repositorio de modelos, datasets y espacios. El 'GitHub de la IA'. Librería Transformers esencial." },
+      { name:"PyTorch", tag:"PT", stars:"★★★", def:"Framework de ML de Meta. El favorito en investigación y academia. Dinámico, intuitivo y flexible." },
+      { name:"scikit-learn", tag:"SKL", stars:"★★★", def:"Librería Python para machine learning clásico (regresión, clasificación, clustering). La más usada para ML tradicional." },
+      { name:"AI Agents", tag:"AGT", stars:"★★★", def:"LLMs equipados con herramientas (búsqueda web, código, APIs) que pueden tomar decisiones y ejecutar acciones autónomas para completar objetivos." },
+      { name:"MCP", tag:"MCP", stars:"★★★", def:"Model Context Protocol. Protocolo de Anthropic para conectar LLMs con herramientas y fuentes de datos externas de forma estandarizada." },
+      { name:"Stable Diffusion", tag:"SD", stars:"★★★", def:"Modelo open-source de generación de imágenes por texto. La base de la IA generativa de imágenes locales. Comfy UI es su interfaz principal." },
+      { name:"Whisper", tag:"WSP", stars:"★★★", def:"Modelo de reconocimiento de voz (speech-to-text) de OpenAI. Open-source y muy preciso en múltiples idiomas incluyendo español." },
+    ]
+  },
+  {
+    section: "Mobile Development", icon: "[M]",
+    terms: [
+      { name:"React Native", tag:"RN", stars:"★★★", def:"Framework de Meta para crear apps móviles nativas (iOS y Android) usando React y JavaScript." },
+      { name:"Flutter", tag:"FLT", stars:"★★★", def:"Framework de Google para crear apps multiplataforma con Dart. UI altamente personalizable y excelente rendimiento." },
+      { name:"Expo", tag:"EXP", stars:"★★★", def:"Plataforma y herramientas para React Native. Simplifica enormemente el desarrollo, testing y despliegue de apps." },
+      { name:"SwiftUI", tag:"SUI", stars:"★★★", def:"Framework declarativo de Apple para construir interfaces en iOS/macOS con Swift. El futuro del desarrollo nativo Apple." },
+      { name:"Jetpack Compose", tag:"JC", stars:"★★★", def:"Framework declarativo de Google para UI en Android nativo con Kotlin. Equivalente a SwiftUI pero para Android." },
+      { name:"Tauri", tag:"TAU", stars:"★★★", def:"Framework para crear apps de escritorio multiplataforma usando tecnologías web + Rust. Muy ligero, alternativa moderna a Electron." },
+      { name:"Electron", tag:"ELC", stars:"★★★", def:"Framework para crear apps de escritorio usando HTML, CSS y JavaScript. Usado por VS Code, Slack, Discord, GitHub Desktop." },
+      { name:"Capacitor", tag:"CAP", stars:"★★★", def:"Runtime que convierte apps web (React, Vue, Angular) en apps móviles nativas. Sucesor de Cordova/PhoneGap." },
+    ]
+  },
+  {
+    section: "Web3 & Blockchain", icon: "[⬡]",
+    terms: [
+      { name:"Blockchain", tag:"BCH", stars:"★★★", def:"Tecnología de registro distribuido e inmutable. Cada bloque contiene datos y el hash del anterior, formando una cadena verificable sin autoridad central." },
+      { name:"Smart Contract", tag:"SC", stars:"★★★", def:"Programa que vive y se ejecuta en una blockchain. Se ejecuta automáticamente cuando se cumplen condiciones. Escritos en Solidity (Ethereum) o Rust (Solana)." },
+      { name:"Ethereum", tag:"ETH", stars:"★★★", def:"La blockchain programable más grande. Soporta smart contracts y DApps. Usa Proof of Stake. Base de DeFi y NFTs." },
+      { name:"Solana", tag:"SOL", stars:"★★★", def:"Blockchain de alta velocidad (65,000 TPS) y bajas comisiones. Usa Proof of History. Smart contracts en Rust/Anchor." },
+      { name:"Anchor", tag:"ANC", stars:"★★★", def:"Framework para desarrollo de smart contracts en Solana. Abstrae la complejidad de Solana BPF. Equivalente a Hardhat de Ethereum." },
+      { name:"TRON", tag:"TRX", stars:"★★★", def:"Blockchain de alta velocidad enfocada en pagos. Muy activa en stablecoins (USDT en TRON es el más transferido del mundo)." },
+      { name:"DeFi", tag:"DFI", stars:"★★★", def:"Decentralized Finance. Servicios financieros (préstamos, intercambios, yield) operados por smart contracts sin intermediarios." },
+      { name:"NFT", tag:"NFT", stars:"★★★", def:"Non-Fungible Token. Token único en blockchain que prueba propiedad digital. Usado en arte digital, gaming y certificados." },
+      { name:"Ethers.js", tag:"W3", stars:"★★★", def:"Librería JavaScript para interactuar con contratos Ethereum desde el frontend. La preferida actualmente por su mejor API." },
+      { name:"Hardhat", tag:"HH", stars:"★★★", def:"Entorno de desarrollo Ethereum. Compila, testa y despliega contratos Solidity. El más usado actualmente." },
+      { name:"Foundry", tag:"FND", stars:"★★★", def:"Suite de herramientas Ethereum escrita en Rust. Muy rápida para testing de contratos. Preferida por desarrolladores avanzados." },
+      { name:"IPFS", tag:"IPF", stars:"★★★", def:"InterPlanetary File System. Sistema de almacenamiento descentralizado peer-to-peer. Usado para metadatos de NFTs y contenido Web3." },
+      { name:"DApp", tag:"DAP", stars:"★★★", def:"Decentralized Application. Aplicación cuyo backend son smart contracts en una blockchain. Frontend web normal + contratos." },
+      { name:"RWA Tokenization", tag:"RWA", stars:"★★★", def:"Real World Assets. Proceso de representar activos del mundo real (propiedades, bonos) como tokens en blockchain." },
+      { name:"Stablecoin", tag:"STB", stars:"★★★", def:"Criptomoneda cuyo valor está anclado a otro activo (generalmente USD). Ejemplos: USDT, USDC, DAI." },
+    ]
+  },
+  {
+    section: "Herramientas de Desarrollo", icon: "[T]",
+    terms: [
+      { name:"Git", tag:"GIT", stars:"★★★", def:"Sistema de control de versiones distribuido. Permite rastrear cambios en el código, trabajar en ramas y colaborar. Absolutamente esencial." },
+      { name:"GitHub", tag:"GH", stars:"★★★", def:"Plataforma de hosting para repositorios Git. La más grande del mundo. Colaboración, code review, GitHub Actions, GitHub Pages y más." },
+      { name:"npm", tag:"NPM", stars:"★★★", def:"Node Package Manager. El gestor de paquetes de JavaScript y Node.js. El registro más grande de librerías open-source del mundo." },
+      { name:"pnpm", tag:"PNM", stars:"★★★", def:"Gestor de paquetes alternativo a npm. Más rápido y eficiente en uso de disco. Muy popular en monorepos." },
+      { name:"Vite", tag:"VIT", stars:"★★★", def:"Build tool moderno para proyectos web. Ultra rápido para desarrollo gracias a ES Modules nativos. Reemplazó a Webpack en muchos proyectos." },
+      { name:"Webpack", tag:"WPK", stars:"★★★", def:"Bundler de módulos JavaScript. Muy configurable. Sigue siendo el estándar en proyectos grandes y legacy." },
+      { name:"ESLint", tag:"ESL", stars:"★★★", def:"Linter para JavaScript/TypeScript. Encuentra y corrige problemas de código automáticamente según reglas configuradas." },
+      { name:"Prettier", tag:"PRE", stars:"★★★", def:"Formateador de código automático. Mantiene el código consistente sin importar quién lo escriba. Estándar en equipos." },
+      { name:"Vitest", tag:"VTT", stars:"★★★", def:"Framework de testing para Vite. Extremadamente rápido. El estándar moderno para testing unitario en proyectos JavaScript/TypeScript." },
+      { name:"Jest", tag:"JST", stars:"★★★", def:"Framework de testing de JavaScript de Meta. El más usado históricamente. Perfecto para testing de React y Node.js." },
+      { name:"Playwright", tag:"PLW", stars:"★★★", def:"Framework de testing end-to-end de Microsoft. Simula interacciones reales del usuario en el navegador. El mejor actualmente." },
+      { name:"Postman", tag:"PST", stars:"★★★", def:"Herramienta para diseñar, probar y documentar APIs. La más popular para testing manual de endpoints REST y GraphQL." },
+      { name:"Bruno", tag:"BRU", stars:"★★★", def:"Alternativa open-source a Postman que guarda colecciones en archivos locales. Ganando popularidad rápidamente." },
+      { name:"Cargo", tag:"CGO", stars:"★★★", def:"Gestor de paquetes y build tool oficial de Rust. Maneja dependencias (crates), compilación y testing. Similar a npm pero para Rust." },
+      { name:"Make / Zapier", tag:"MKE", stars:"★★★", def:"Plataformas de automatización no-code. Conectan apps y servicios sin programar. Make tiene más control; Zapier es más simple." },
+    ]
+  },
+  {
+    section: "IDEs & Editores de Código", icon: "[≡]",
+    terms: [
+      { name:"Visual Studio Code", tag:"VSC", stars:"★★★", def:"Editor de código de Microsoft. El más usado del mundo. Gratuito, extensible con miles de extensiones, soporte para todos los lenguajes." },
+      { name:"Cursor", tag:"CRS", stars:"★★★", def:"Editor basado en VS Code con IA integrada profundamente. Autocompletado, chat con el código, edición multi-archivo con IA. El favorito en 2024-2025." },
+      { name:"JetBrains IDEs", tag:"JB", stars:"★★★", def:"Suite de IDEs profesionales: IntelliJ (Java), WebStorm (JS), PyCharm (Python), RustRover (Rust), GoLand (Go). Los mejores para cada lenguaje." },
+      { name:"Neovim", tag:"NVM", stars:"★★★", def:"Editor modal en la terminal, evolución de Vim. Altamente personalizable con Lua. Favorito de desarrolladores avanzados que valoran velocidad." },
+      { name:"Zed", tag:"ZED", stars:"★★★", def:"Editor de código nuevo, escrito en Rust. Extremadamente rápido, colaboración en tiempo real nativa. Emergente en 2024-2025." },
+      { name:"Windsurf", tag:"WDS", stars:"★★★", def:"Editor con IA de Codeium. Alternativa a Cursor con funcionalidades similares de asistencia con IA. Muy popular en 2025." },
+      { name:"GitHub Copilot", tag:"GCP", stars:"★★★", def:"IA de autocompletado de código integrada en VS Code y otros editores. Sugiere líneas y funciones completas basándose en el contexto." },
+      { name:"Replit", tag:"RPL", stars:"★★★", def:"IDE online con IA integrada. Permite programar en el navegador sin instalar nada. Ideal para aprender, prototipar y desplegar rápidamente." },
+      { name:"Xcode", tag:"XCD", stars:"★★★", def:"IDE oficial de Apple para desarrollo de apps iOS y macOS. Obligatorio para compilar y publicar en la App Store." },
+      { name:"Android Studio", tag:"ASD", stars:"★★★", def:"IDE oficial de Google para desarrollo Android. Basado en IntelliJ IDEA. Incluye emulador, profiler y herramientas específicas para Android." },
+    ]
+  },
+];
+
+// ── Build UI ───────────────────────────────────────────────────────────────────
+const filtersEl   = document.getElementById('filters');
+const mainEl      = document.getElementById('main-content');
+const noResultsEl = document.getElementById('no-results');
+const countEl     = document.getElementById('visible-count');
+const searchEl    = document.getElementById('search');
+const topBtn      = document.getElementById('top-btn');
+
+let activeFilter = 'all';
+let searchQuery  = '';
+
+function escapeHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+}
+
+function highlight(text, query) {
+  if (!query) return escapeHtml(text);
+  const safe = escapeHtml(text);
+  const re = new RegExp(`(${query.replace(/[.*+?^${}()|[\]\\]/g,'\\$&')})`, 'gi');
+  return safe.replace(re, '<mark>$1</mark>');
+}
+
+function starsClass(stars) {
+  if (stars === '★★★') return 'e3';
+  if (stars === '★★')  return 'e2';
+  return 'e1';
+}
+
+function render() {
+  mainEl.innerHTML = '';
+  let total = 0;
+
+  DATA.forEach(cat => {
+    if (activeFilter !== 'all' && cat.section !== activeFilter) return;
+
+    const filtered = cat.terms.filter(t => {
+      if (!searchQuery) return true;
+      const q = searchQuery.toLowerCase();
+      return t.name.toLowerCase().includes(q) ||
+             t.tag.toLowerCase().includes(q)  ||
+             t.def.toLowerCase().includes(q);
+    });
+
+    if (filtered.length === 0) return;
+    total += filtered.length;
+
+    const section = document.createElement('div');
+    section.className = 'section';
+    section.innerHTML = `
+      <div class="section-header">
+        <div class="section-icon">${cat.icon}</div>
+        <div class="section-title">${highlight(cat.section, searchQuery)}</div>
+        <div class="section-count">${filtered.length} términos</div>
+      </div>
+      <div class="terms-grid" id="grid-${cat.section.replace(/\s+/g,'-')}"></div>
+    `;
+    mainEl.appendChild(section);
+
+    const grid = section.querySelector('.terms-grid');
+    filtered.forEach(t => {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.innerHTML = `
+        <div class="card-top">
+          <span class="tag">${t.tag}</span>
+          <span class="stars ${starsClass(t.stars)}">${t.stars}</span>
+        </div>
+        <div class="card-name">${highlight(t.name, searchQuery)}</div>
+        <div class="card-def">${highlight(t.def, searchQuery)}</div>
+      `;
+      grid.appendChild(card);
+    });
+  });
+
+  countEl.textContent = total;
+  noResultsEl.style.display = total === 0 ? 'block' : 'none';
+}
+
+// ── Filters ────────────────────────────────────────────────────────────────────
+DATA.forEach(cat => {
+  const btn = document.createElement('button');
+  btn.className = 'filter-btn';
+  btn.dataset.filter = cat.section;
+  btn.textContent = cat.section;
+  filtersEl.appendChild(btn);
+});
+
+filtersEl.addEventListener('click', e => {
+  const btn = e.target.closest('.filter-btn');
+  if (!btn) return;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  activeFilter = btn.dataset.filter;
+  render();
+});
+
+// ── Search ─────────────────────────────────────────────────────────────────────
+searchEl.addEventListener('input', e => {
+  searchQuery = e.target.value.trim();
+  // When searching, show all categories
+  if (searchQuery) {
+    activeFilter = 'all';
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    document.querySelector('[data-filter="all"]').classList.add('active');
+  }
+  render();
+});
+
+// ── Scroll top button ──────────────────────────────────────────────────────────
+window.addEventListener('scroll', () => {
+  topBtn.classList.toggle('visible', window.scrollY > 400);
+});
+
+// ── Init ───────────────────────────────────────────────────────────────────────
+render();
+</script>
+</body>
+</html>
