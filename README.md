@@ -1,4 +1,4 @@
-# 📖 Glosario Tecnológico 2025
+# 📖 Glosario Tecnológico 2026
 
 > Referencia personal de tecnología creada por **Memo Lab PRO**  
 > Lenguajes · Frameworks · Librerías · Bases de Datos · Cloud · IA · Web3 · IDEs
@@ -28,7 +28,7 @@ Si tienes una cuenta en GitHub:
 2. Ve a **Settings → Pages**
 3. En *Branch*, selecciona `main` y carpeta `/root`
 4. Haz clic en **Save**
-5. En unos segundos tu glosario estará en: `https://TU-USUARIO.github.io/glosario-tecnologico`
+5. En unos segundos tu glosario estará en: `https://TU-USUARIO.github.io/glosario-tecnologico2026`
 
 ---
 
